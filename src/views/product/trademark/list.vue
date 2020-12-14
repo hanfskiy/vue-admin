@@ -42,7 +42,7 @@
       :page-size.sync="limit"
       layout="prev, pager, next, jumper,sizes,total"
       :total="total"
-      class="trademark-pagination"
+      class="pagination"
     >
     </el-pagination>
     <el-dialog
@@ -241,10 +241,6 @@ export default {
 <style lang="sass" scoped>
 .trademark-logo
   width: 150px
-.trademark-pagination
-  text-align: right
->>>.el-pagination__sizes
-  margin-left: 320px
 
 >>>.avatar-uploader .el-upload
   border: 1px dashed #d9d9d9

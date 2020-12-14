@@ -1,10 +1,11 @@
 <template>
   <div>
-    <Category
+    <!--  <Category
       @change="getAttrList"
       :disabled="!isShowList"
       @clearList="clearList"
-    />
+    /> -->
+    <Category :disabled="!isShowList" />
     <el-card style="margin-top: 20px" v-show="isShowList">
       <el-button
         type="primary"
@@ -228,6 +229,16 @@ export default {
       }
       this.loading = false;
     },
+  },
+  // 绑定全局事件总线
+  mounted() {
+    this.$bus.$on("change", this.getAttrList);
+    this.$bus.$on("clearList", this.clearList);
+  },
+  // 解绑全局事件总线
+  beforeDestroy() {
+    this.$bus.$off("change", this.getAttrList);
+    this.$bus.$off("clearList", this.clearList);
   },
   components: {
     Category,
