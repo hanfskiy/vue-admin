@@ -1,11 +1,16 @@
 <template>
-<div>
-  Spu管理
-</div>
+  <div>
+    <Category />
+  </div>
 </template>
 
 <script>
+import Category from "@/components/Category";
+
 export default {
-  name: 'SpuList',
-}
+  name: "SpuList",
+  components: {
+    Category,
+  },
+};
 </script>
