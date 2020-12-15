@@ -34,7 +34,7 @@ export default {
     });
   },
   /*
-  保存spu
+  添加spu
   */
   saveSpu(spu) {
     return request({
@@ -44,7 +44,7 @@ export default {
     });
   },
   /*
-  添加spu
+  更新spu
   */
   updateSpu(spu) {
     return request({

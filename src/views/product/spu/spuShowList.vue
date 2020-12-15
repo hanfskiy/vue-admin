@@ -72,6 +72,7 @@ export default {
   },
   methods: {
     async getPageList(page, limit) {
+      this.loading = true;
       const { category3Id } = this.category;
       const result = await this.$API.spu.getPageList({
         page,
@@ -86,6 +87,7 @@ export default {
       } else {
         this.$message.error(result.message);
       }
+      this.loading = false;
     },
     handleChange(category) {
       this.category = category;

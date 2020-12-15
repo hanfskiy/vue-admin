@@ -1,8 +1,8 @@
 <template>
   <div>
-    <Category />
+    <Category :disabled="!isShowList" />
     <SpuShowList v-if="isShowList" @showUpdateList="showUpdateList" />
-    <SpuDesc v-else :item="item" />
+    <SpuDesc v-else :item="item" @showList="showList" />
   </div>
 </template>
 
@@ -23,6 +23,12 @@ export default {
     showUpdateList(row) {
       this.isShowList = false;
       this.item = { ...row };
+    },
+    showList(category3Id) {
+      this.isShowList = true;
+      this.$nextTick(() => {
+        this.$bus.$emit("change", { category3Id });
+      });
     },
   },
   components: {
