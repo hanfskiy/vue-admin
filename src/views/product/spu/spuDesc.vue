@@ -116,7 +116,14 @@
         </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="save">保存</el-button>
-          <el-button @click="$emit('showList', spu.category3Id)"
+          <el-button
+            @click="
+              $emit('showList', {
+                category1Id: spu.category1Id,
+                category2Id: spu.category2Id,
+                category3Id: spu.category3Id,
+              })
+            "
             >取消</el-button
           >
         </el-form-item>
@@ -184,10 +191,17 @@ export default {
             spuImageList: this.imgList,
             spuSaleAttrList: this.spuSaleAttrList,
           };
-          const result = await this.$API.spu.updateSpu(spu);
+
+          let result;
+          if (this.spu.id) {
+            result = await this.$API.spu.updateSpu(spu);
+          } else {
+            result = await this.$API.spu.saveSpu(spu);
+          }
+
           if (result.code === 200) {
-            this.$message.success("保存成功~");
-            this.$emit("showList", this.spu.category3Id);
+            this.$message.success(`${this.spu.id ? "保存" : "添加"}成功~`);
+            this.$emit("showList", this.spu.category);
           } else {
             this.$message.error(result.message);
           }
@@ -361,10 +375,13 @@ export default {
     },
   },
   mounted() {
+    if (this.spu.id) {
+      this.getImageList();
+      this.getspuSaleAttrList();
+    }
+
     this.getTrademarkList();
-    this.getImageList();
     this.getSaleAttrList();
-    this.getspuSaleAttrList();
   },
 };
 </script>

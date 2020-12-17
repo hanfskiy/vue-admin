@@ -1,7 +1,13 @@
 <template>
   <div>
     <el-card style="margin-top: 20px">
-      <el-button type="primary" icon="el-icon-plus">添加SPU</el-button>
+      <el-button
+        type="primary"
+        icon="el-icon-plus"
+        :disabled="!category.category3Id"
+        @click="$emit('showUpdateList', { category3Id: category.category3Id })"
+        >添加SPU</el-button
+      >
       <el-table
         :data="spuList"
         border
@@ -18,15 +24,19 @@
               type="primary"
               icon="el-icon-plus"
               size="mini"
+              @click="$emit('UpdateList', { ...scope.row, ...category })"
             ></el-button>
             <el-button
               type="primary"
               icon="el-icon-edit"
               size="mini"
-              @click="$emit('showUpdateList', scope.row)"
+              @click="$emit('showUpdateList', { ...scope.row, ...category })"
             ></el-button>
             <el-button type="info" icon="el-icon-info" size="mini"></el-button>
-            <el-popconfirm :title="`确定删除${scope.row.spuName}吗？`">
+            <el-popconfirm
+              :title="`确定删除${scope.row.spuName}吗？`"
+              @onConfirm="delAttr(scope.row)"
+            >
               <el-button
                 type="danger"
                 icon="el-icon-delete"
@@ -71,6 +81,15 @@ export default {
     };
   },
   methods: {
+    async delAttr(row) {
+      const result = await this.$API.spu.delSpu(row.id);
+      if (result.code === 200) {
+        this.$message.success("删除成功");
+        this.getPageList(this.page, this.limit);
+      } else {
+        this.$message.error(result.message);
+      }
+    },
     async getPageList(page, limit) {
       this.loading = true;
       const { category3Id } = this.category;
